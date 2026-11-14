@@ -28,6 +28,19 @@ class HttpRateSource(RateSource):
         return data
 
 
+
+class FlakySource(RateSource):
+    def __init__(self, data: bytes):
+        self._data = data
+        self._calls = 0
+
+    def fetch(self) -> bytes:
+        self._calls += 1
+        if self._calls == 1:
+            raise OSError("brak sieci")
+        return self._data
+
+
 if  __name__ == "__main__":
     from rate_parser import RateParser
 
