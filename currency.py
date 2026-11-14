@@ -15,6 +15,7 @@ class Currency:
     def rate_per_unit(self) -> Decimal:
         return self.mid_rate / self.multiplier
 
+
 if __name__ == "__main__":
 
     # 1. USD

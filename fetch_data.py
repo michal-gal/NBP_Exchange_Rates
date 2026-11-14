@@ -8,7 +8,7 @@ class RateSource(ABC):
         pass
 
 
-class FileRateSource(RateSource):
+class FileRateSource(RateSource): 
     def __init__(self, path: str):
         self.path = path
 
@@ -26,19 +26,6 @@ class HttpRateSource(RateSource):
         with urllib.request.urlopen(self.URL, timeout=10) as response:
             data = response.read()
         return data
-
-
-
-class FlakySource(RateSource):
-    def __init__(self, data: bytes):
-        self._data = data
-        self._calls = 0
-
-    def fetch(self) -> bytes:
-        self._calls += 1
-        if self._calls == 1:
-            raise OSError("brak sieci")
-        return self._data
 
 
 if  __name__ == "__main__":

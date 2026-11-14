@@ -62,8 +62,8 @@ good = CurrencyConverter(FileRateSource("sample.xml"),RateParser(), RateTable(),
 good.refresh()
 assert good.convert(Decimal("10"), "USD", "PLN") == Decimal("40.00")
 
-commision = CurrencyConverter(FileRateSource("sample.xml"),RateParser(), RateTable(), CommissionStrategy(ViaPlnStrategy(), Decimal("0.05")) )
-commision.refresh()
-assert commision.convert(Decimal("10"), "USD", "PLN") == Decimal("38.00")
+commission = CurrencyConverter(FileRateSource("sample.xml"),RateParser(), RateTable(), CommissionStrategy(ViaPlnStrategy(), Decimal("0.05")) )
+commission.refresh()
+assert commission.convert(Decimal("10"), "USD", "PLN") == Decimal("38.00")
 
 print("Wszytskie testy przeszły pomyślnie.")

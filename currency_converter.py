@@ -4,6 +4,7 @@ from fetch_data import RateSource
 from rate_parser import RateParser
 from rate_table import RateTable
 from conversion import ConversionStrategy
+import xml.etree.ElementTree as ET
 
 class CurrencyConverter:
     def __init__(self, source:RateSource, parser: RateParser, table: RateTable, strategy: ConversionStrategy):
@@ -20,7 +21,7 @@ class CurrencyConverter:
         return self._state.convert(self, amount, src_code, dst_code)
 
     def refresh(self):
-        self._state.refresh(self)
+        return self._state.refresh(self)
 
 class ConverterNotReadyError(Exception):
     pass
@@ -31,14 +32,16 @@ class ConverterState(ABC):
     def convert(self,context, amount, src_code, dst_code):
         pass
 
-    def refresh(self, context):
+    def refresh(self, context) -> bool:
         try:
             data = context.source.fetch()
             context.table.load(context.parser.parse(data))
-        except OSError:
+        except (OSError, ET.ParseError, AttributeError):
             context.set_state(ErrorState())
+            return False
         else:
             context.set_state(ReadyState())
+            return True
 
 class NoDataState(ConverterState):
     def convert(self, context, amount, src_code, dst_code):
