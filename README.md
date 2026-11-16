@@ -10,11 +10,11 @@ A Python application that fetches current currency exchange rates from the Natio
 ## How to run
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Kantor.git
+   git clone https://github.com/michal_gal/Kantor.git
    ```
 2. Navigate to the project folder:
    ```bash
-   cd Kantor
+   cd Kantor/src
    ```
 3. Run the application:
    ```bash
@@ -23,4 +23,3 @@ A Python application that fetches current currency exchange rates from the Natio
 
 ## Requirements
 - Python 3.x
-- `requests` library (install via `pip install requests`)

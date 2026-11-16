@@ -8,4 +8,3 @@ venv/
 .idea/
 *.xml
 !sample.xml
-!LastA.xml
