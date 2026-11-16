@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from decimal import Decimal, ROUND_HALF_UP
-from fetch_data import RateSource
-from rate_parser import RateParser
-from rate_table import RateTable
-from conversion import ConversionStrategy
+from src.fetch_data import RateSource
+from src.rate_parser import RateParser
+from src.rate_table import RateTable
+from src.conversion import ConversionStrategy
 import xml.etree.ElementTree as ET
 
 class CurrencyConverter:
@@ -59,7 +59,3 @@ class ReadyState(ConverterState):
         dst = context.table.get(dst_code)
         result = context.strategy.convert(amount,src,dst)
         return result.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-
-
-
-

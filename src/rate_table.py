@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from currency import Currency
+from src.currency import Currency
 from decimal import Decimal
 
 class Observer(ABC):
@@ -57,39 +57,6 @@ class CurrencyIterator:
         self._index += 1
         return currency
 
-class CountingObserver(Observer):
-    def __init__(self):
-        self.calls = 0
-
-    def update(self, table):
-        self.calls += 1
-
-if __name__ == "__main__":
-
-    table = RateTable()
-    obs = CountingObserver()
-    table.attach(obs)
-    table.load([
-            Currency("dolar amerykański", "USD", Decimal("4.00"), 1), 
-            Currency("Forint węgierski", "HUF",Decimal("1.1500"), 100)
-        ])          # użyj PLN i HUF z poprzednich kroków
-    assert obs.calls == 1
-
-    table.detach(obs)
-    table.load([
-                Currency("dolar amerykański", "USD", Decimal("4.00"), 1), 
-                Currency("Forint węgierski", "HUF",Decimal("1.1500"), 100)
-            ])          # użyj PLN i HUF z poprzednich kroków
-    assert obs.calls == 1      # po detach licznik się nie zmienia
-
-    assert len(list(table)) == 2
-    assert table.get("HUF").rate_per_unit() == Decimal("0.0115")
-
-    try:
-        table.get("XYZ")
-        assert False, "oczekiwano UnknownCurrencyError"
-    except UnknownCurrencyError:
-        pass
 
 
     

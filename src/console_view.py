@@ -1,5 +1,5 @@
-from rate_table import Observer, RateTable, UnknownCurrencyError
-from currency_converter import CurrencyConverter, ConverterNotReadyError
+from src.rate_table import Observer, RateTable, UnknownCurrencyError
+from src.currency_converter import CurrencyConverter, ConverterNotReadyError
 from decimal import Decimal, InvalidOperation
 
 

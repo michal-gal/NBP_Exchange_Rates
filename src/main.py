@@ -1,9 +1,9 @@
-from console_view import ConsoleView, ConsoleMenu
-from rate_table import RateTable
-from currency_converter import CurrencyConverter
-from rate_parser import RateParser
-from fetch_data import HttpRateSource
-from conversion import ViaPlnStrategy
+from src.console_view import ConsoleView, ConsoleMenu
+from src.rate_table import RateTable
+from src.currency_converter import CurrencyConverter
+from src.rate_parser import RateParser
+from src.fetch_data import HttpRateSource
+from src.conversion import ViaPlnStrategy
 
 table = RateTable()
 view = ConsoleView()

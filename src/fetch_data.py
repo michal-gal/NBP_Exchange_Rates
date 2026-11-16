@@ -28,19 +28,3 @@ class HttpRateSource(RateSource):
         return data
 
 
-if  __name__ == "__main__":
-    from rate_parser import RateParser
-
-    file_fetcher = FileRateSource("sample.xml")
-    data1 = file_fetcher.fetch()
-    parser = RateParser()
-    currencies = parser.parse(data1)
-    print(currencies)
-    assert len(currencies) == 3
-
-    http_fetcher = HttpRateSource()
-    data2 = http_fetcher.fetch()
-    currencies = parser.parse(data2)
-    print(len(currencies))
-    print(currencies[1].name)    
-
