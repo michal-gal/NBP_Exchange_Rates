@@ -1,9 +1,7 @@
 from src.conversion import ViaPlnStrategy, CommissionStrategy
 from decimal import Decimal, ROUND_HALF_UP
 import pytest
-from conftest import USD, HUF, PLN
-
-
+from sample_data import USD, HUF, PLN
 
 @pytest.mark.parametrize("amount, src, dst, expected", [
     (Decimal("10"), USD, PLN, Decimal("40.00")),

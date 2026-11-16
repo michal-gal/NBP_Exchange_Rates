@@ -1,6 +1,6 @@
 from src.rate_parser import RateParser
 from src.fetch_data import FileRateSource
-from conftest import SAMPLE_PATH
+from sample_data import SAMPLE_PATH
 
 def test_fetching_from_file():
     file_fetcher = FileRateSource(SAMPLE_PATH)

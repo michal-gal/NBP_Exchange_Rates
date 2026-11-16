@@ -6,7 +6,7 @@ from src.fetch_data import FileRateSource
 from src.conversion import ViaPlnStrategy, CommissionStrategy
 from decimal import Decimal
 import pytest
-from conftest import USD, HUF, SAMPLE, SAMPLE_PATH
+from sample_data import SAMPLE_PATH
 
 class FlakySource(RateSource):
     def __init__(self, data: bytes):
@@ -19,12 +19,10 @@ class FlakySource(RateSource):
             raise OSError("brak sieci")
         return self._data
 
-
 @pytest.fixture
 def fresh_converter():
     converter = CurrencyConverter(FileRateSource(SAMPLE_PATH), RateParser(), RateTable(), ViaPlnStrategy())
     return converter
-
 
 @pytest.fixture
 def ready_converter(fresh_converter):

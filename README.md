@@ -14,11 +14,11 @@ A Python application that fetches current currency exchange rates from the Natio
    ```
 2. Navigate to the project folder:
    ```bash
-   cd Kantor/src
+   cd Kantor
    ```
 3. Run the application:
    ```bash
-   python main.py
+   python -m src.main
    ```
 
 ## Requirements

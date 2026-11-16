@@ -2,7 +2,7 @@
 from src.currency import Currency
 from decimal import Decimal
 import pytest
-from conftest import USD, HUF
+from sample_data import USD, HUF
 
 
 def test_rate_per_unit_usd():

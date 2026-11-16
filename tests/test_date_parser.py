@@ -1,6 +1,6 @@
 from src.rate_parser import RateParser
 from decimal import Decimal
-from conftest import SAMPLE
+from sample_data import SAMPLE
 import pytest
 
 @pytest.fixture

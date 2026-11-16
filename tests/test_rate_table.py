@@ -1,7 +1,7 @@
 from src.rate_table import UnknownCurrencyError, Observer, RateTable
 from decimal import Decimal
 import pytest
-from conftest import USD, HUF
+from sample_data import USD, HUF
 
 
 class CountingObserver(Observer):

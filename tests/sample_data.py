@@ -1,8 +1,6 @@
-# tests/conftest.py
-import pytest
-from decimal import Decimal
-from src.currency import Currency
 from pathlib import Path
+from src.currency import Currency
+from decimal import Decimal
 
 USD = Currency("dolar amerykański", "USD", Decimal("4.00"), 1)
 PLN = Currency("złoty polski", "PLN", Decimal("1.00"), 1)
@@ -27,18 +25,4 @@ SAMPLE = """<?xml version="1.0" encoding="utf-8"?>
     </tabela_kursow>"""
 
 SAMPLE_PATH = str(Path(__file__).parent / "sample.xml")
-
-
-@pytest.fixture
-def usd():
-    return Currency("dolar amerykański", "USD", Decimal("4.00"), 1)
-
-@pytest.fixture
-def pln():
-    return Currency("złoty polski", "PLN", Decimal("1.00"), 1)
-
-@pytest.fixture
-def huf():
-    return Currency("forint węgierski", "HUF", Decimal("1.1500"), 100)
-
 
