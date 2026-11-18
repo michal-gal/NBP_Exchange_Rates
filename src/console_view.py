@@ -1,23 +1,47 @@
-from src.rate_table import Observer, RateTable, UnknownCurrencyError
-from src.currency_converter import CurrencyConverter, ConverterNotReadyError
+from __future__ import annotations
+from src.currency import Currency
+from collections.abc import Iterable
+from src.observer import Observer
+from src.currency_converter import CurrencyConverter
+from src.menu_command import MenuCommand
 from decimal import Decimal, InvalidOperation
+from src.rate_table import UnknownCurrencyError
+from src.currency_converter import ConverterNotReadyError
+from src.console_menu import ConsoleMenu
+
+class ConsoleView(Observer):    
+
+    def print_all(self,currencies: Iterable[Currency]) -> None:
+        print('Currency name     Currency code     Average rate')
+        for item in currencies:
+            print(f'{item.name:<20}{item.code:<18}{item.rate_per_unit():.4f}')
+
+    def update(self, currencies: tuple[Currency, ...]) -> None:
+        print(f'Loaded {len(currencies)} currencies') 
 
 
-class ConsoleMenu:
+class ShowCurrenciesCommand(MenuCommand):
+    label = 'print all available currencies'
 
-    def __init__(self, view, table, converter: CurrencyConverter):
+    def __init__(self, view: ConsoleView, converter: CurrencyConverter):
         self._view = view
-        self._table = table
         self._converter = converter
 
-    def print_menu(self):
-        print('Choose option:')
-        print('1 - print all available currencies')
-        print('2 - find currency by code and calculate')
-        print('3 - refresh data')
-        print('4 - quit')
+    def execute(self) -> None:
+        try:
+            currencies = self._converter.currencies()
+        except ConverterNotReadyError as e:
+            print(e)
+        else:
+            self._view.print_all(currencies)
 
-    def _convert_dialog(self):
+class ConvertCommand(MenuCommand):
+    label = 'find currency by code and calculate'
+
+    def __init__(self,converter: CurrencyConverter):
+        self._converter = converter
+
+    def execute(self) -> None:
         text = input('Input amount: ').strip().replace(",", ".")
         try:
             amount = Decimal(text)
@@ -37,32 +61,30 @@ class ConsoleMenu:
         else:
             print(f'{amount} {src_code} = {result} {dst_code}')
 
-    def run(self):
-        while True:
-            self.print_menu()
-            choice = input()
-            if choice == '1':
-                self._view.print_all(self._table)
-            elif choice == '2':
-                self._convert_dialog()
-            elif choice == '3':
-                if self._converter.refresh():
-                    print('Data refreshed')
-                else:
-                    print('Data not refreshed')
+class RefreshCommand(MenuCommand):
+    label = 'refresh data'
 
-            elif choice == '4':
-                print('Quitting...')
-                break
-            else:
-                print('Unknown option, try again...')
+    def __init__(self, converter: CurrencyConverter):
+        self._converter = converter
 
-class ConsoleView(Observer):    
+    def execute(self) -> None:
+        if self._converter.refresh():
+            print('Data refreshed')
+        else:
+            print('Data not refreshed')
 
-    def print_all(self,table:RateTable):
-        print('Currency name     Currency code     Average rate')
-        for item in table:
-            print(f'{item.name:<20}{item.code:<18}{item.rate_per_unit():.4f}')
+class QuitCommand(MenuCommand):
+    label = 'quit'
 
-    def update(self, table):
-        print(f'Loaded {len(table)} currencies') 
+    def __init__(self, menu: ConsoleMenu):
+        self._menu = menu
+
+    def execute(self) -> None:
+        print('Quitting...')
+        self._menu.stop()
+        
+
+
+
+
+

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from src.currency import Currency
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal
+
 
 
 class ConversionStrategy(ABC):

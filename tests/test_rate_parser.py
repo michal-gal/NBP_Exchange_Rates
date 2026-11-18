@@ -1,4 +1,4 @@
-from src.rate_parser import RateParser
+from src.rate_parser import RateParser, RateParseError
 from decimal import Decimal
 from sample_data import SAMPLE
 import pytest
@@ -28,3 +28,19 @@ def test_parse_iso_8859_2():
     currencies_iso = parser.parse(data_iso)
     by_code = {c.code: c for c in currencies_iso}
     assert by_code["USD"].name == "dolar amerykański"            
+
+def test_parser_raises_on_garbage():
+    with pytest.raises(RateParseError):
+        RateParser().parse(b"to nie jest xml")
+
+@pytest.mark.parametrize("data", [
+    b"to nie jest xml",
+    b'<tabela_kursow><pozycja><nazwa_waluty>x</nazwa_waluty></pozycja></tabela_kursow>',
+    b'<tabela_kursow><pozycja><nazwa_waluty>x</nazwa_waluty><przelicznik>1</przelicznik>'
+    b'<kod_waluty>XXX</kod_waluty><kurs_sredni>abc</kurs_sredni></pozycja></tabela_kursow>',
+    b'<tabela_kursow><pozycja><nazwa_waluty>x</nazwa_waluty><przelicznik>abc</przelicznik>'
+    b'<kod_waluty>XXX</kod_waluty><kurs_sredni>1,0</kurs_sredni></pozycja></tabela_kursow>',
+])
+def test_parser_raises_on_bad_data(data):
+    with pytest.raises(RateParseError):
+        RateParser().parse(data)
